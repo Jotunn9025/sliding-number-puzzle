@@ -60,6 +60,8 @@ class PuzzleGame:
 
     def is_valid_move(self, row, col):
         r, c = self.empty_pos
+        if row < 0 or row >= self.rows or col < 0 or col >= self.cols:
+            return False  # Move is out of bounds
         return (row == r and abs(col - c) == 1) or (col == c and abs(row - r) == 1)
 
     def move(self, row, col):
@@ -95,22 +97,30 @@ class PuzzleGame:
     def on_key_press(self, event):
         if self.invert_wasd.get():
             if event.char.lower() == "w":
-                self.move(self.empty_pos[0] - 1, self.empty_pos[1])
+                if self.is_valid_move(self.empty_pos[0] - 1, self.empty_pos[1]):
+                    self.move(self.empty_pos[0] - 1, self.empty_pos[1])
             elif event.char.lower() == "s":
-                self.move(self.empty_pos[0] + 1, self.empty_pos[1]) 
+                if self.is_valid_move(self.empty_pos[0] + 1, self.empty_pos[1]):
+                    self.move(self.empty_pos[0] + 1, self.empty_pos[1]) 
             elif event.char.lower() == "a":
-                self.move(self.empty_pos[0], self.empty_pos[1] - 1)
+                if self.is_valid_move(self.empty_pos[0], self.empty_pos[1] - 1):
+                    self.move(self.empty_pos[0], self.empty_pos[1] - 1)
             elif event.char.lower() == "d":
-                self.move(self.empty_pos[0], self.empty_pos[1] + 1)
+                if self.is_valid_move(self.empty_pos[0], self.empty_pos[1] + 1):
+                    self.move(self.empty_pos[0], self.empty_pos[1] + 1)
         else:
             if event.char.lower() == "w":
-                self.move(self.empty_pos[0] + 1, self.empty_pos[1])
+                if self.is_valid_move(self.empty_pos[0] + 1, self.empty_pos[1]):
+                    self.move(self.empty_pos[0] + 1, self.empty_pos[1])
             elif event.char.lower() == "s":
-                self.move(self.empty_pos[0] - 1, self.empty_pos[1]) 
+                if self.is_valid_move(self.empty_pos[0] - 1, self.empty_pos[1]):
+                    self.move(self.empty_pos[0] - 1, self.empty_pos[1]) 
             elif event.char.lower() == "a":
-                self.move(self.empty_pos[0], self.empty_pos[1] + 1)
+                if self.is_valid_move(self.empty_pos[0], self.empty_pos[1] + 1):
+                    self.move(self.empty_pos[0], self.empty_pos[1] + 1)
             elif event.char.lower() == "d":
-                self.move(self.empty_pos[0], self.empty_pos[1] - 1)
+                if self.is_valid_move(self.empty_pos[0], self.empty_pos[1] - 1):
+                    self.move(self.empty_pos[0], self.empty_pos[1] - 1)
         self.draw_board()
         if self.check_win():
             self.show_win_message()
